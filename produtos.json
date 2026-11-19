@@ -1,0 +1,10 @@
+{
+ "loja": "Livia perfumaria",
+ "whatsapp": "83996230901",
+ "taxaPresente": 0,
+ "cats": [{"id":"c1","nome":"We Pink"},{"id":"c2","nome":"Maquiagem"}],
+ "prods": [
+  {"id":"p1","nome":"Produto de exemplo We Pink","preco":59.9,"cat":"c1","desc":"Edite ou apague este exemplo.","detalhes":"Aqui vai a descrição completa do produto: cheiro, tamanho, duração, para quem é ideal…","imgs":[],"esgotado":false},
+  {"id":"p2","nome":"Produto de exemplo Maquiagem","preco":34.9,"cat":"c2","desc":"Edite ou apague este exemplo.","detalhes":"Descrição completa do produto, cores disponíveis, acabamento…","imgs":[],"esgotado":false}
+ ]
+}

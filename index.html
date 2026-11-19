@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Catálogo da Livia perfumaria: We Pink e maquiagem. Escolha e peça pelo WhatsApp.">
+<meta name="theme-color" content="#d81b60">
+<title>Livia perfumaria</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1 id="hLoja">Livia perfumaria</h1><p>Escolha seus produtos e envie o pedido pelo WhatsApp.</p></header>
+<nav id="chips"></nav>
+<main class="grid" id="grid"><p class="empty">Carregando…</p></main>
+<div id="bar"><div><strong id="count">0 itens</strong><br><span id="total">R$ 0,00</span></div><button onclick="openCart()">Ver carrinho</button></div>
+<div class="ov" id="detail" onclick="if(event.target===this)closeOv('detail')"><div class="sheet" id="detailBody"></div></div>
+<div class="ov" id="panel" onclick="if(event.target===this)closeOv('panel')"><div class="sheet">
+  <h2 style="margin-top:0">Seu pedido</h2><div id="items"></div>
+  <input type="text" id="nome" placeholder="Seu nome">
+  <div class="gift"><label class="g"><input type="checkbox" id="presente" onchange="renderCart()"> 🎁 É para presente?</label>
+    <div id="giftBox" hidden><p id="giftInfo" class="muted" style="margin:6px 0 0"></p>
+      <input type="text" id="paraQuem" placeholder="Nome de quem vai receber">
+      <textarea id="cartao" rows="3" placeholder="Mensagem para o cartão (opcional)"></textarea>
+      <label class="sm"><input type="checkbox" id="semPreco"> Não incluir valores na entrega</label></div></div>
+  <textarea id="obs" rows="2" placeholder="Observações (opcional)" style="margin-top:12px"></textarea>
+  <p style="text-align:right;margin-bottom:0"><strong>Total: <span id="total2"></span></strong></p>
+  <button class="send" onclick="enviar()">Enviar pedido pelo WhatsApp</button>
+  <button class="close" onclick="closeOv('panel')">Continuar comprando</button></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const pic=(p,i=0)=>p.imgs&&p.imgs[i]?`<img src="${esc(p.imgs[i])}" alt="${esc(p.nome)}" loading="lazy">`:'🌸';
+let S={cats:[],prods:[],taxaPresente:0,whatsapp:''},cart={},filtro='';
+fetch('produtos.json?'+Date.now()).then(r=>r.json()).then(j=>{S=j;renderShop()}).catch(()=>{$('grid').innerHTML='<p class="empty">Não foi possível carregar os produtos. Tente novamente em instantes.</p>'});
+function renderShop(){
+  $('hLoja').textContent=S.loja;document.title=S.loja;
+  const cs=S.cats.filter(c=>S.prods.some(p=>p.cat==c.id));
+  $('chips').innerHTML=cs.length?[['','Todos'],...cs.map(c=>[c.id,c.nome])].map(([id,n])=>`<button class="chip ${filtro==id?'on':''}" onclick="setF('${id}')">${esc(n)}</button>`).join(''):'';
+  const l=S.prods.filter(p=>!filtro||p.cat==filtro);
+  $('grid').innerHTML=l.map(p=>`<div class="card"><div class="img" onclick="openDetail('${p.id}')">${pic(p)}${p.esgotado?'<span class="tag">Esgotado</span>':''}</div>
+   <div class="info"><div class="name" onclick="openDetail('${p.id}')">${esc(p.nome)}</div><div class="desc">${esc(p.desc)}</div><div class="price">${brl(p.preco)}</div>
+   <button class="more" onclick="openDetail('${p.id}')">Ver detalhes</button>
+   <button class="add" ${p.esgotado?'disabled':''} onclick="add('${p.id}')">${p.esgotado?'Esgotado':'Adicionar'}</button></div></div>`).join('')||'<p class="empty">Nenhum produto por aqui ainda.</p>';
+  updBar();
+}
+function setF(id){filtro=id;renderShop()}
+function closeOv(i){$(i).classList.remove('open')}
+function openDetail(id,i=0){
+  const p=S.prods.find(x=>x.id==id);if(!p)return;
+  const th=(p.imgs||[]).length>1?`<div class="thumbs">${p.imgs.map((m,k)=>`<img src="${esc(m)}" class="${k==i?'on':''}" onclick="openDetail('${id}',${k})" alt="">`).join('')}</div>`:'';
+  $('detailBody').innerHTML=`<div class="big">${pic(p,i)}</div>${th}<h2 style="margin:10px 0 2px">${esc(p.nome)}</h2>
+   <div class="price" style="font-size:20px">${brl(p.preco)}</div>
+   <p style="white-space:pre-line">${esc(p.detalhes||p.desc)}</p>
+   <button class="send" ${p.esgotado?'disabled':''} onclick="add('${id}');closeOv('detail')">${p.esgotado?'Esgotado':'Adicionar ao carrinho'}</button>
+   <button class="close" onclick="closeOv('detail')">Fechar</button>`;
+  $('detail').classList.add('open');
+}
+function add(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function dec(id){cart[id]--;if(cart[id]<=0)delete cart[id];renderCart()}
+function totals(){let q=0,t=0;for(const id in cart){const p=S.prods.find(x=>x.id==id);if(!p){delete cart[id];continue}q+=cart[id];t+=cart[id]*p.preco}
+  const taxa=(q&&$('presente').checked)?(+S.taxaPresente||0):0;return{q,t:t+taxa,taxa}}
+function updBar(){const T=totals();$('count').textContent=T.q+(T.q==1?' item':' itens');$('total').textContent=$('total2').textContent=brl(T.t)}
+function renderCart(){
+  $('giftBox').hidden=!$('presente').checked;
+  $('giftInfo').textContent=(+S.taxaPresente>0)?'Embalagem de presente: +'+brl(S.taxaPresente):'Embalagem de presente grátis!';
+  $('items').innerHTML=Object.keys(cart).map(id=>{const p=S.prods.find(x=>x.id==id);if(!p)return'';
+   return `<div class="row"><div>${esc(p.nome)}<br><small>${brl(p.preco)}</small></div><div class="qty"><button onclick="dec('${id}')">−</button><span>${cart[id]}</span><button onclick="add('${id}')">+</button></div></div>`}).join('')||'<p class="muted">Carrinho vazio.</p>';
+  updBar();
+}
+function openCart(){renderCart();$('panel').classList.add('open')}
+function enviar(){
+  const T=totals();if(!T.q){alert('Adicione ao menos um produto.');return}
+  let m='Olá! Gostaria de fazer um pedido:\n\n';
+  for(const id in cart){const p=S.prods.find(x=>x.id==id);m+=`• ${cart[id]}x ${p.nome} — ${brl(cart[id]*p.preco)}\n`}
+  if($('presente').checked){m+='\n🎁 *Pedido para presente*';
+    if(T.taxa>0)m+=`\nEmbalagem de presente: ${brl(T.taxa)}`;
+    const pa=$('paraQuem').value.trim(),ca=$('cartao').value.trim();
+    if(pa)m+=`\nPara: ${pa}`;if(ca)m+=`\nMensagem do cartão: ${ca}`;
+    if($('semPreco').checked)m+='\nPor favor, não incluir valores na entrega.';m+='\n'}
+  m+=`\n*Total: ${brl(T.t)}*`;
+  const n=$('nome').value.trim(),o=$('obs').value.trim();if(n)m+=`\nNome: ${n}`;if(o)m+=`\nObs: ${o}`;
+  let w=String(S.whatsapp).replace(/\D/g,'');if(w.length<=11)w='55'+w;
+  window.open(`https://wa.me/${w}?text=${encodeURIComponent(m)}`,'_blank');
+}
+</script>
+</body>
+</html>
