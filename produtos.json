@@ -1,7 +1,7 @@
 {
- "loja": "Livia perfumaria",
+ "loja": "Lívia perfumaria",
  "whatsapp": "83996230901",
- "taxaPresente": 2,
+ "taxaPresente": 0,
  "cats": [
   {
    "id": "c1",
@@ -35,9 +35,11 @@
   }
  ],
  "tema": {
-  "cor": "#c9a227",
-  "fundo": "#fffdfa",
-  "texto": "#000000",
-  "logo": "fotos/logo-xmoa7c3l.png"
+  "cor": "#f2d77d",
+  "fundo": "#ffffff",
+  "texto": "#131211",
+  "logo": "fotos/logo-xmoa7c3l.png",
+  "fonte": "classica",
+  "slogan": "Escolha seus produtos e envie o pedido, você será encaminhado diretamente para o whatsApp. Boas compras :)"
  }
 }
