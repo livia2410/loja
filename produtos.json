@@ -33,5 +33,11 @@
    "imgs": [],
    "esgotado": false
   }
- ]
+ ],
+ "tema": {
+  "cor": "#c9a227",
+  "fundo": "#fffdfa",
+  "texto": "#000000",
+  "logo": "fotos/logo-xmoa7c3l.png"
+ }
 }
