@@ -5,22 +5,28 @@
  "cats": [
   {
    "id": "c1",
-   "nome": "We Pink"
+   "nome": "We Pink - Femininos"
   },
   {
    "id": "c2",
    "nome": "Maquiagem"
+  },
+  {
+   "id": "xe2st5f6",
+   "nome": "We Pink - Masculinos"
   }
  ],
  "prods": [
   {
    "id": "p1",
-   "nome": "Produto de exemplo We Pink",
-   "preco": 59.9,
+   "nome": "Body cream VF Golden",
+   "preco": 48,
    "cat": "c1",
-   "desc": "Edite ou apague este exemplo.",
-   "detalhes": "Aqui vai a descrição completa do produto: cheiro, tamanho, duração, para quem é ideal…",
-   "imgs": [],
+   "desc": "Ideal para quem ama cuidar da pele e manter uma sensação agradável de hidratação ao longo do dia. Um toque de elegância e cuidado para incluir na sua rotina!",
+   "detalhes": "Notas olfativas – VF Golden Body Cream\n\nFamília olfativa: Floral Oriental\n- Notas de saída: Pimenta Rosa e Mandarina.\n- Notas de corpo: Acordes florais elegantes.\n- Notas de fundo: Praliné e Âmbar.\nSensação da fragrância: Floral, levemente adocicada, envolvente e sofisticada",
+   "imgs": [
+    "fotos/xsi59k2h.jpg"
+   ],
    "esgotado": false
   },
   {
