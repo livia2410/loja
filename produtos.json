@@ -8,10 +8,6 @@
    "nome": "We Pink - Body Splash Femininos"
   },
   {
-   "id": "c2",
-   "nome": "Maquiagem"
-  },
-  {
    "id": "xe2st5f6",
    "nome": "We Pink - Body Splash Masculinos"
   },
@@ -26,6 +22,10 @@
   {
    "id": "xegip3xf",
    "nome": "Body Cream"
+  },
+  {
+   "id": "xwgh4m3c",
+   "nome": "Maquiagens"
   }
  ],
  "prods": [
@@ -74,6 +74,18 @@
    "detalhes": "Notas olfativas:\n- Notas de saída: Bergamota, Mandarina, Damasco e Anis.\n- Notas de coração: Violeta, Rosa Damascena, Vetiver e Jasmim.\n- Notas de fundo: Baunilha, Patchouli, Musgo e Pralinê.\nFamília olfativa: Floral Oriental.\n\nSensação da fragrância: Floral, levemente adocicada, cremosa e sofisticada.\n\nUma fragrância encantadora para deixar sua presença ainda mais inesquecível! 🤍",
    "imgs": [
     "fotos/xlp39tps.jpg"
+   ],
+   "esgotado": false
+  },
+  {
+   "id": "x8xkt7k6",
+   "nome": "Máscara de Cílios Popstar Bombastic – Ruby Rose",
+   "preco": 15,
+   "cat": "xwgh4m3c",
+   "desc": "Destaque seu olhar com a Máscara de Cílios Popstar! Desenvolvida para proporcionar cílios mais volumosos, alongados e definidos, ela entrega um acabamento preto intenso que valoriza qualquer maquiagem.",
+   "detalhes": "",
+   "imgs": [
+    "fotos/x995dbfj.jpg"
    ],
    "esgotado": false
   }
