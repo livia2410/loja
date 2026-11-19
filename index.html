@@ -9,6 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
 <link rel="stylesheet" href="style.css">
 <script src="tema.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
 <body>
 <header><h1 id="hLoja">Livia perfumaria</h1><p id="slogan">Escolha seus produtos e envie o pedido pelo WhatsApp.</p></header>
@@ -17,6 +18,7 @@
 <div id="bar"><div><strong id="count">0 itens</strong><br><span id="total">R$ 0,00</span></div><button onclick="openCart()">Ver carrinho</button></div>
 <div class="ov" id="detail" onclick="if(event.target===this)closeOv('detail')"><div class="sheet" id="detailBody"></div></div>
 <div class="ov" id="panel" onclick="if(event.target===this)closeOv('panel')"><div class="sheet">
+ <div id="stCart">
   <h2 style="margin-top:0">Seu pedido</h2><div id="items"></div>
   <input type="text" id="nome" placeholder="Seu nome">
   <div class="gift"><label class="g"><input type="checkbox" id="presente" onchange="renderCart()"> 🎁 É para presente?</label>
@@ -26,8 +28,43 @@
       <label class="sm"><input type="checkbox" id="semPreco"> Não incluir valores na entrega</label></div></div>
   <textarea id="obs" rows="2" placeholder="Observações (opcional)" style="margin-top:12px"></textarea>
   <p style="text-align:right;margin-bottom:0"><strong>Total: <span id="total2"></span></strong></p>
-  <button class="send" onclick="enviar()">Enviar pedido pelo WhatsApp</button>
-  <button class="close" onclick="closeOv('panel')">Continuar comprando</button></div></div>
+  <button class="send" onclick="toEnd()">Confirmar pedido</button>
+  <button class="close" onclick="closeOv('panel')">Continuar comprando</button>
+ </div>
+
+ <div id="stEnd" hidden>
+  <p class="steps">Passo 1 de 2 · Endereço</p>
+  <h2 style="margin:0 0 4px">Endereço de entrega</h2>
+  <label>Cidade</label>
+  <select id="cidade" onchange="cidadeCh()"><option value="igaracy">Igaracy - PB</option><option value="outra">Outra cidade</option></select>
+  <div id="endIg">
+   <label>Rua</label><input type="text" id="rua" autocomplete="street-address" placeholder="Nome da rua">
+   <div class="duo"><div><label>Número</label><input type="text" id="num" placeholder="Ex.: 123"></div>
+   <div><label>Bairro</label><input type="text" id="bairro" placeholder="Bairro"></div></div>
+   <label>Complemento / ponto de referência (opcional)</label><input type="text" id="ref" placeholder="Ex.: casa azul, perto da praça">
+  </div>
+  <div id="endOut" hidden>
+   <div class="note">📍 A entrega com endereço aqui na loja é só para <strong>Igaracy - PB</strong>. Para outras cidades, vamos combinar a entrega pelo WhatsApp.</div>
+   <label>Qual é a sua cidade?</label><input type="text" id="cidadeOutra" placeholder="Cidade - UF">
+   <button class="send" onclick="enviarOutra()">Combinar entrega pelo WhatsApp</button>
+  </div>
+  <button class="send" id="btnPag" onclick="toPag()">Continuar para o pagamento</button>
+  <button class="close" onclick="go('stCart')">Voltar</button>
+ </div>
+
+ <div id="stPag" hidden>
+  <p class="steps">Passo 2 de 2 · Pagamento</p>
+  <h2 style="margin:0 0 4px">Forma de pagamento</h2>
+  <div class="warn">🚫 <strong>Não trabalhamos com fiado.</strong> O pagamento é sempre à vista.</div>
+  <div id="pagOpts"></div>
+  <div id="trocoBox" hidden><label>Troco para quanto? (opcional)</label><input type="text" id="troco" inputmode="decimal" placeholder="Ex.: 50"></div>
+  <p style="text-align:right;margin:14px 0 0"><strong>Total: <span id="total3"></span></strong></p>
+  <button class="send" onclick="finalizar()">Finalizar pedido</button>
+  <button class="close" onclick="go('stEnd')">Voltar</button>
+ </div>
+
+ <div id="stOk" hidden></div>
+</div></div>
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -72,9 +109,18 @@ function renderCart(){
    return `<div class="row"><div>${esc(p.nome)}<br><small>${brl(p.preco)}</small></div><div class="qty"><button onclick="dec('${id}')">−</button><span>${cart[id]}</span><button onclick="add('${id}')">+</button></div></div>`}).join('')||'<p class="muted">Carrinho vazio.</p>';
   updBar();
 }
-function openCart(){renderCart();$('panel').classList.add('open')}
-function enviar(){
+const STEPS=['stCart','stEnd','stPag','stOk'];
+let END=null,PAG='';
+function go(id){STEPS.forEach(s=>$(s).hidden=s!=id);const sh=$('panel').querySelector('.sheet');if(sh)sh.scrollTop=0}
+function openCart(){renderCart();go('stCart');$('panel').classList.add('open')}
+function toEnd(){
   const T=totals();if(!T.q){alert('Adicione ao menos um produto.');return}
+  if(!$('nome').value.trim()){alert('Informe seu nome.');$('nome').focus();return}
+  go('stEnd');cidadeCh();
+}
+function cidadeCh(){const ig=$('cidade').value=='igaracy';$('endIg').hidden=!ig;$('endOut').hidden=ig;$('btnPag').hidden=!ig}
+function pedidoMsg(extra){
+  const T=totals();
   let m='Olá! Gostaria de fazer um pedido:\n\n';
   for(const id in cart){const p=S.prods.find(x=>x.id==id);m+=`• ${cart[id]}x ${p.nome} — ${brl(cart[id]*p.preco)}\n`}
   if($('presente').checked){m+='\n🎁 *Pedido para presente*';
@@ -84,9 +130,83 @@ function enviar(){
     if($('semPreco').checked)m+='\nPor favor, não incluir valores na entrega.';m+='\n'}
   m+=`\n*Total: ${brl(T.t)}*`;
   const n=$('nome').value.trim(),o=$('obs').value.trim();if(n)m+=`\nNome: ${n}`;if(o)m+=`\nObs: ${o}`;
+  return m+(extra||'');
+}
+function abrirWa(m){
   let w=String(S.whatsapp).replace(/\D/g,'');if(w.length<=11)w='55'+w;
   window.open(`https://wa.me/${w}?text=${encodeURIComponent(m)}`,'_blank');
 }
+function enviarOutra(){
+  const c=$('cidadeOutra').value.trim();
+  if(!c){alert('Informe sua cidade.');$('cidadeOutra').focus();return}
+  abrirWa(pedidoMsg(`\n\n📍 *Entrega:* minha cidade é ${c}. Podemos combinar a entrega?`));
+}
+function toPag(){
+  const rua=$('rua').value.trim(),num=$('num').value.trim(),bai=$('bairro').value.trim();
+  if(!rua||!num||!bai){alert('Preencha rua, número e bairro.');return}
+  END={rua,num,bai,ref:$('ref').value.trim()};
+  const pg=S.pagamentos||{};
+  const ops=[['pix','Pix','Pague agora pelo QR code, no valor exato do pedido']];
+  if(pg.cartao!==false)ops.push(['cartao','Cartão de débito ou crédito','Pague na maquininha quando receber o pedido']);
+  if(pg.dinheiro!==false)ops.push(['dinheiro','Dinheiro na entrega','Pague em espécie quando receber']);
+  if(pg.link!==false)ops.push(['link','Link de pagamento','Receba um link pelo WhatsApp para pagar com cartão ou Pix']);
+  $('pagOpts').innerHTML=ops.map(([v,n,d],i)=>`<label class="opt"><input type="radio" name="pag" value="${v}" ${i==0?'checked':''} onchange="pagCh()"><span><strong>${n}</strong><br><small>${d}</small></span></label>`).join('');
+  $('total3').textContent=brl(totals().t);pagCh();go('stPag');
+}
+function pagCh(){const r=document.querySelector('input[name=pag]:checked');$('trocoBox').hidden=!(r&&r.value=='dinheiro')}
+
+/* ---------- Pix (BR Code estático) ---------- */
+const semAc=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const tlv=(id,v)=>id+String(v.length).padStart(2,'0')+v;
+function crc16(s){let c=0xFFFF;for(let i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(let k=0;k<8;k++)c=(c&0x8000)?((c<<1)^0x1021)&0xFFFF:(c<<1)&0xFFFF}return c.toString(16).toUpperCase().padStart(4,'0')}
+function pixPayload(chave,nome,cidade,valor){
+  const conta=tlv('00','br.gov.bcb.pix')+tlv('01',chave);
+  let p=tlv('00','01')+tlv('01','11')+tlv('26',conta)+tlv('52','0000')+tlv('53','986')+tlv('54',valor.toFixed(2))+tlv('58','BR')
+    +tlv('59',(semAc(nome).toUpperCase()||'LOJA').slice(0,25))+tlv('60',(semAc(cidade).toUpperCase()||'IGARACY').slice(0,15))+tlv('62',tlv('05','***'));
+  p+='6304';return p+crc16(p);
+}
+function copiar(id,btn){
+  const el=$(id);el.select();el.setSelectionRange(0,99999);
+  const ok=()=>{btn.textContent='Copiado ✓';setTimeout(()=>btn.textContent='Copiar código Pix',2000)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(el.value).then(ok).catch(()=>{document.execCommand('copy');ok()});
+  else{document.execCommand('copy');ok()}
+}
+function finalizar(){
+  const r=document.querySelector('input[name=pag]:checked');if(!r){alert('Escolha a forma de pagamento.');return}
+  PAG=r.value;const T=totals();
+  const nomes={pix:'Pix',dinheiro:'Dinheiro na entrega',cartao:'Cartão de débito ou crédito (na entrega)',link:'Link de pagamento (cartão ou Pix)'};
+  const ender=`${END.rua}, ${END.num} — ${END.bai}, Igaracy - PB`+(END.ref?` (${END.ref})`:'');
+  let pagTxt=nomes[PAG],extra='',h=`<h2 style="margin:0 0 4px">Pedido confirmado 🎉</h2><p class="muted" style="margin-top:0">Total: <strong>${brl(T.t)}</strong> · ${nomes[PAG]}</p>`;
+  if(PAG=='pix'){
+    const pix=S.pix||{};const chave=String(pix.chave||'').replace(/\s/g,'');
+    if(chave){
+      const code=pixPayload(chave,pix.nome||S.loja,pix.cidade||'Igaracy',T.t);
+      h+=`<div class="qrbox"><div id="qr"></div></div><p class="muted" style="text-align:center;margin:6px 0">Abra o app do seu banco, escolha <strong>Pix → Ler QR code</strong> e pague ${brl(T.t)}.</p>
+      <label>Ou use o Pix copia e cola</label><textarea id="pixcode" rows="3" readonly>${esc(code)}</textarea>
+      <button class="send" style="margin-top:8px" onclick="copiar('pixcode',this)">Copiar código Pix</button>
+      <div class="note" style="margin-top:12px">Depois de pagar, toque no botão abaixo e envie o pedido <strong>junto com o comprovante</strong> pelo WhatsApp.</div>`;
+      pagTxt='Pix (QR code gerado — vou enviar o comprovante)';
+    }else{
+      h+=`<div class="note">Vamos te passar a chave Pix pelo WhatsApp. Toque no botão abaixo para enviar o pedido.</div>`;
+      pagTxt='Pix (preciso da chave)';
+    }
+  }else if(PAG=='link'){
+    h+=`<div class="note">Toque no botão abaixo para enviar o pedido pelo WhatsApp. Em seguida, vamos te enviar o <strong>link de pagamento</strong> para pagar com cartão ou Pix.</div>`;
+    pagTxt='Link de pagamento (cartão ou Pix) — por favor, me envie o link';
+  }else{
+    h+=`<div class="note">O pagamento será feito na entrega. Toque no botão abaixo para enviar o pedido pelo WhatsApp e combinarmos a entrega.</div>`;
+    if(PAG=='dinheiro'){const t=$('troco').value.trim();if(t)pagTxt+=` (troco para R$ ${t})`}
+  }
+  extra=`\n\n📍 *Entrega:* ${ender}\n💳 *Pagamento:* ${pagTxt}\n🚫 Sem fiado — pagamento à vista.`;
+  h+=`<button class="send" onclick='abrirWa(${JSON.stringify(pedidoMsg(extra)).replace(/'/g,"\\u0027")})'>Enviar pedido pelo WhatsApp</button>
+  <button class="close" onclick="concluir()">Concluir e voltar à loja</button>`;
+  $('stOk').innerHTML=h;go('stOk');
+  if(PAG=='pix'&&$('qr')){
+    try{const qr=qrcode(0,'M');qr.addData($('pixcode').value);qr.make();$('qr').innerHTML=qr.createImgTag(6,8)}
+    catch(e){$('qr').innerHTML='<p class="muted">Não foi possível desenhar o QR code. Use o código copia e cola abaixo.</p>'}
+  }
+}
+function concluir(){cart={};renderCart();closeOv('panel');go('stCart')}
 </script>
 </body>
 </html>

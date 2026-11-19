@@ -101,6 +101,8 @@ function addCat(){const n=$('newCat').value.trim();if(!n)return;S.cats.push({id:
 function renCat(id,v){const c=S.cats.find(x=>x.id==id);if(c&&v.trim()){c.nome=v.trim();setDirty()}}
 function delCat(id){if(!confirm('Excluir a categoria? Os produtos dela ficam sem categoria.'))return;S.cats=S.cats.filter(c=>c.id!=id);S.prods.forEach(p=>{if(p.cat==id)p.cat=''});setDirty();renderAdm()}
 const PALETAS=[['Rosa','#d81b60','#fff8fa','#3b1f2b'],['Lilás','#8e44ad','#faf6ff','#2b1b3a'],['Nude','#a8744f','#fbf6f1','#3a2a20'],['Verde','#1f8a70','#f4fbf8','#17332b'],['Preto e dourado','#c9a227','#151412','#f5efe0']];
+function setPix(k,v){S.pix=S.pix||{};S.pix[k]=v;setDirty()}
+function setPg(k,v){S.pagamentos=S.pagamentos||{};S.pagamentos[k]=v;setDirty()}
 function setTema(k,v){S.tema=S.tema||{};S.tema[k]=v;applyTema(S.tema);setDirty()}
 function paleta(i){const p=PALETAS[i];S.tema=S.tema||{};S.tema.cor=p[1];S.tema.fundo=p[2];S.tema.texto=p[3];applyTema(S.tema);setDirty();renderAdm()}
 async function addLogo(f){
@@ -110,11 +112,20 @@ async function addLogo(f){
     PREV[path]=d;setTema('logo',path);renderAdm()}catch(e){alert('Não consegui enviar o logo ('+e.message+').')}
 }
 function formLoja(){
+  const PX=S.pix=S.pix||{},PG=S.pagamentos=S.pagamentos||{};
   const T=S.tema=S.tema||{},cor=T.cor||'#d81b60',fundo=T.fundo||'#fff8fa',texto=T.texto||'#3b1f2b';
   return `<label>Nome da loja</label><input type="text" value="${esc(S.loja)}" oninput="S.loja=this.value;setDirty()">
   <label>Frase embaixo do nome</label><input type="text" value="${esc(T.slogan!=null?T.slogan:'Escolha seus produtos e envie o pedido pelo WhatsApp.')}" oninput="setTema('slogan',this.value)">
   <label>WhatsApp (com DDD)</label><input type="text" inputmode="tel" value="${esc(S.whatsapp)}" oninput="S.whatsapp=this.value.replace(/\\D/g,'');setDirty()">
   <label>Valor da embalagem de presente (R$, 0 = grátis)</label><input type="text" inputmode="decimal" value="${esc(S.taxaPresente)}" oninput="S.taxaPresente=parseFloat(this.value.replace(',','.'))||0;setDirty()">
+  <h3 style="margin:22px 0 0">Pagamento</h3>
+  <label>Chave Pix (digite exatamente como cadastrada no banco; se for telefone, use +5583…)</label><input type="text" value="${esc(PX.chave||'')}" oninput="setPix('chave',this.value)" autocapitalize="none">
+  <label>Nome que aparece no Pix (seu nome ou da loja)</label><input type="text" value="${esc(PX.nome||'')}" oninput="setPix('nome',this.value)">
+  <label>Cidade do Pix</label><input type="text" value="${esc(PX.cidade||'Igaracy')}" oninput="setPix('cidade',this.value)">
+  <label class="sm"><input type="checkbox" ${PG.cartao!==false?'checked':''} onchange="setPg('cartao',this.checked)"> Cartão de débito ou crédito (maquininha na entrega)</label>
+  <label class="sm"><input type="checkbox" ${PG.dinheiro!==false?'checked':''} onchange="setPg('dinheiro',this.checked)"> Dinheiro na entrega</label>
+  <label class="sm"><input type="checkbox" ${PG.link!==false?'checked':''} onchange="setPg('link',this.checked)"> Link de pagamento (cartão ou Pix, enviado por você no WhatsApp)</label>
+  <p class="muted">Não trabalhamos com fiado: o aviso já aparece para o cliente no pagamento.</p>
   <h3 style="margin:22px 0 0">Aparência</h3>
   <label>Combinações prontas</label><div class="pal">${PALETAS.map((p,i)=>`<button class="mini" onclick="paleta(${i})"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${p[1]};margin-right:6px;vertical-align:-1px"></span>${p[0]}</button>`).join('')}</div>
   <div class="cores"><div><label>Cor principal</label><input type="color" value="${cor}" oninput="setTema('cor',this.value)"></div>

@@ -1,137 +1,55 @@
 {
- "loja": "Lívia perfumaria",
+ "loja": "Livia perfumaria",
  "whatsapp": "83996230901",
- "taxaPresente": 2,
+ "taxaPresente": 0,
  "cats": [
   {
    "id": "c1",
-   "nome": "We Pink - Body Splash Femininos"
+   "nome": "We Pink"
   },
   {
-   "id": "xe2st5f6",
-   "nome": "We Pink - Body Splash Masculinos"
-  },
-  {
-   "id": "x4tecj4w",
-   "nome": "We Pink - Perfumes Femininos"
-  },
-  {
-   "id": "xdg3zv55",
-   "nome": "We Pink - Perfumes Masculinos"
-  },
-  {
-   "id": "xegip3xf",
-   "nome": "We Pink - Body Cream"
-  },
-  {
-   "id": "x40bqa5y",
-   "nome": "We Pink - Capilar"
+   "id": "c2",
+   "nome": "Maquiagem"
   }
  ],
  "prods": [
   {
    "id": "p1",
-   "nome": "Body cream VF Golden",
-   "preco": 48,
-   "cat": "xegip3xf",
-   "desc": "Ideal para quem ama cuidar da pele e manter uma sensação agradável de hidratação ao longo do dia. Um toque de elegância e cuidado para incluir na sua rotina!",
-   "detalhes": "Notas olfativas – VF Golden Body Cream\n\nFamília olfativa: Floral Oriental\n- Notas de saída: Pimenta Rosa e Mandarina.\n- Notas de corpo: Acordes florais elegantes.\n- Notas de fundo: Praliné e Âmbar.\nSensação da fragrância: Floral, levemente adocicada, envolvente e sofisticada",
-   "imgs": [
-    "fotos/xsi59k2h.jpg"
-   ],
+   "nome": "Produto de exemplo We Pink",
+   "preco": 59.9,
+   "cat": "c1",
+   "desc": "Edite ou apague este exemplo.",
+   "detalhes": "Aqui vai a descrição completa do produto: cheiro, tamanho, duração, para quem é ideal…",
+   "imgs": [],
    "esgotado": false
   },
   {
    "id": "p2",
-   "nome": "Body cream Obsessed Tradicional",
-   "preco": 48,
-   "cat": "xegip3xf",
-   "desc": "Uma fragrância intensa, doce e envolvente! O Body Cream Obsessed proporciona hidratação para a pele, deixando-a macia, perfumada e com um toque aveludado.",
-   "detalhes": "Notas olfativas:\n- Família olfativa: Oriental Gourmand.\n- Notas predominantes: Cereja, açúcar caramelizado e baunilha.\n- Sensação: Doce, cremosa, marcante e sensual. \n  Adoro Cupom Blog\nIdeal para: Quem ama fragrâncias bem docinhas, intensas e irresistíveis!",
-   "imgs": [
-    "fotos/xlc548b7.jpg"
-   ],
+   "nome": "Produto de exemplo Maquiagem",
+   "preco": 34.9,
+   "cat": "c2",
+   "desc": "Edite ou apague este exemplo.",
+   "detalhes": "Descrição completa do produto, cores disponíveis, acabamento…",
+   "imgs": [],
    "esgotado": false
-  },
-  {
-   "id": "xisa0gg1",
-   "nome": "Body Splash King Blue Deep",
-   "preco": 50,
-   "cat": "xe2st5f6",
-   "desc": "Uma fragrância masculina sofisticada e marcante, perfeita para quem gosta de aromas elegantes e envolventes. Com caminho olfativo amadeirado, combina frescor e intensidade, deixando uma presença moderna e irresistível.",
-   "detalhes": "Notas olfativas:\n- Saída: Pimenta Rosa e Bergamota.\n- Corpo: Gardênia e Lírio-do-vale.\n- Fundo: Baunilha, Patchouli, Fava Tonka e Sândalo.\nFamília olfativa: Amadeirada.\n\nSensação da fragrância: Fresca, amadeirada, levemente adocicada e sofisticada.\n\nIdeal para homens que gostam de fragrâncias elegantes e cheias de personalidade.",
-   "imgs": [
-    "fotos/xd0iqy3e.jpg"
-   ],
-   "esgotado": false
-  },
-  {
-   "id": "xhajcz8z",
-   "nome": "Heaven Bride – Perfume Feminino",
-   "preco": 120,
-   "cat": "x4tecj4w",
-   "desc": "Uma fragrância sofisticada e romântica, que combina o frescor das notas cítricas com um delicado coração floral e um fundo doce e envolvente. Heaven Bride é perfeito para quem ama perfumes elegantes, femininos e marcantes.",
-   "detalhes": "Notas olfativas:\n- Notas de saída: Bergamota, Mandarina, Damasco e Anis.\n- Notas de coração: Violeta, Rosa Damascena, Vetiver e Jasmim.\n- Notas de fundo: Baunilha, Patchouli, Musgo e Pralinê.\nFamília olfativa: Floral Oriental.\n\nSensação da fragrância: Floral, levemente adocicada, cremosa e sofisticada.\n\nUma fragrância encantadora para deixar sua presença ainda mais inesquecível! 🤍",
-   "imgs": [
-    "fotos/xlp39tps.jpg"
-   ],
-   "esgotado": false
-  },
-  {
-   "id": "xe9ztkjk",
-   "nome": "Proteína Capilar",
-   "preco": 115,
-   "cat": "c1",
-   "desc": "Um cuidado especial para os fios que precisam de força e recuperação! A Proteína Capilar auxilia no tratamento da fibra capilar, contribuindo para cabelos com aparência mais resistente, macia e saudável.",
-   "detalhes": "Benefícios:\n- Auxilia na recuperação dos fios.\n- Ajuda a melhorar a resistência capilar.\n- Proporciona maciez e cuidado.\n- Ideal para cabelos que precisam de tratamento.",
-   "imgs": [
-    "fotos/xvd9zgg6.jpg"
-   ],
-   "esgotado": true
-  },
-  {
-   "id": "x5o9ohcu",
-   "nome": "Booster Repair – Óleo Capilar",
-   "preco": 50,
-   "cat": "x40bqa5y",
-   "desc": "Um tratamento multifuncional desenvolvido para nutrir, hidratar e restaurar os fios, proporcionando mais brilho, maciez e resistência.",
-   "detalhes": "Principais benefícios:\n- Auxilia na restauração dos fios.\n- Promove hidratação e nutrição.\n- Ajuda a fortalecer o cabelo.\n- Contribui para o aumento da resistência capilar.\n- Proporciona maciez e brilho intenso.\n- Ajuda a deixar os cabelos perfumados.\nAtivos: Óleo de argan, chá verde, abacate, algodão, ojon, vitamina E e ômegas 3, 6, 7 e 9.",
-   "imgs": [
-    "fotos/xpqzblfb.jpg"
-   ],
-   "esgotado": true
-  },
-  {
-   "id": "x2zv54x8",
-   "nome": "Body Splash Obsessed Tradicional",
-   "preco": 50,
-   "cat": "c1",
-   "desc": "Uma fragrância sensual e sofisticada, perfeita para mulheres que gostam de marcar presença. Obsessed combina o toque irresistível da cereja com notas cítricas, florais e adocicadas, criando um aroma envolvente e inesquecível.",
-   "detalhes": "Notas olfativas:\n- Saída: Laranja sanguínea, mandarina e cereja.\n- Corpo: Gardênia, mel, flor de laranjeira, jasmim, pêssego e ylang-ylang.\n- Fundo: Patchouli, baunilha, caramelo, musk e cedro.\nFamília olfativa: Chypre Floral Amadeirado.\n\nSensação da fragrância: Doce, sensual, floral, frutada e marcante.\n\nUma fragrância feita para mulheres que não passam despercebidas!",
-   "imgs": [
-    "fotos/xdba21ox.jpg"
-   ],
-   "esgotado": true
-  },
-  {
-   "id": "xhxp185v",
-   "nome": "Obsessed Lovely – Perfume 100ml",
-   "preco": 120,
-   "cat": "x4tecj4w",
-   "desc": "Uma fragrância feminina, delicada e apaixonante! Obsessed Lovely combina a intensidade das frutas com a delicadeza das rosas, criando um aroma sofisticado, envolvente e cheio de personalidade.",
-   "detalhes": "- Família olfativa: Frutado Floral.\n- Notas de destaque: Frutas vermelhas, pera, figo, rosa, magnólia, baunilha e musk.\n- Sensação: Romântica, frutada, delicada e levemente adocicada.\n\nUma escolha perfeita para quem ama fragrâncias femininas e encantadoras.",
-   "imgs": [
-    "fotos/xqccondn.jpg"
-   ],
-   "esgotado": true
   }
  ],
  "tema": {
-  "cor": "#f2e2b0",
-  "fundo": "#ffffff",
-  "texto": "#131211",
-  "logo": "fotos/logo-xmoa7c3l.png",
-  "fonte": "classica",
-  "slogan": "Escolha seus produtos e envie o pedido, você será encaminhado diretamente para o whatsApp. Boas compras :)"
+  "cor": "#d81b60",
+  "fundo": "#fff8fa",
+  "texto": "#3b1f2b",
+  "fonte": "elegante",
+  "logo": "",
+  "slogan": "Escolha seus produtos e envie o pedido pelo WhatsApp."
+ },
+ "pix": {
+  "chave": "",
+  "nome": "Livia perfumaria",
+  "cidade": "Igaracy"
+ },
+ "pagamentos": {
+  "cartao": true,
+  "dinheiro": true,
+  "link": true
  }
 }
