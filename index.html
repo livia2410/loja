@@ -8,9 +8,10 @@
 <title>Livia perfumaria</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
 <link rel="stylesheet" href="style.css">
+<script src="tema.js"></script>
 </head>
 <body>
-<header><h1 id="hLoja">Livia perfumaria</h1><p>Escolha seus produtos e envie o pedido pelo WhatsApp.</p></header>
+<header><h1 id="hLoja">Livia perfumaria</h1><p id="slogan">Escolha seus produtos e envie o pedido pelo WhatsApp.</p></header>
 <nav id="chips"></nav>
 <main class="grid" id="grid"><p class="empty">Carregando…</p></main>
 <div id="bar"><div><strong id="count">0 itens</strong><br><span id="total">R$ 0,00</span></div><button onclick="openCart()">Ver carrinho</button></div>
@@ -35,7 +36,9 @@ const pic=(p,i=0)=>p.imgs&&p.imgs[i]?`<img src="${esc(p.imgs[i])}" alt="${esc(p.
 let S={cats:[],prods:[],taxaPresente:0,whatsapp:''},cart={},filtro='';
 fetch('produtos.json?'+Date.now()).then(r=>r.json()).then(j=>{S=j;renderShop()}).catch(()=>{$('grid').innerHTML='<p class="empty">Não foi possível carregar os produtos. Tente novamente em instantes.</p>'});
 function renderShop(){
-  $('hLoja').textContent=S.loja;document.title=S.loja;
+  const T=S.tema||{};applyTema(T);
+  $('hLoja').innerHTML=T.logo?`<img class="logo" src="${esc(T.logo)}" alt="${esc(S.loja)}">`:esc(S.loja);document.title=S.loja;
+  $('slogan').textContent=T.slogan!=null?T.slogan:'Escolha seus produtos e envie o pedido pelo WhatsApp.';
   const cs=S.cats.filter(c=>S.prods.some(p=>p.cat==c.id));
   $('chips').innerHTML=cs.length?[['','Todos'],...cs.map(c=>[c.id,c.nome])].map(([id,n])=>`<button class="chip ${filtro==id?'on':''}" onclick="setF('${id}')">${esc(n)}</button>`).join(''):'';
   const l=S.prods.filter(p=>!filtro||p.cat==filtro);
