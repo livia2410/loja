@@ -31,12 +31,14 @@
   },
   {
    "id": "p2",
-   "nome": "Produto de exemplo Maquiagem",
-   "preco": 34.9,
-   "cat": "c2",
-   "desc": "Edite ou apague este exemplo.",
-   "detalhes": "Descrição completa do produto, cores disponíveis, acabamento…",
-   "imgs": [],
+   "nome": "Body cream Obsessed Tradicional",
+   "preco": 48,
+   "cat": "c1",
+   "desc": "Uma fragrância intensa, doce e envolvente! O Body Cream Obsessed proporciona hidratação para a pele, deixando-a macia, perfumada e com um toque aveludado.",
+   "detalhes": "Notas olfativas:\n- Família olfativa: Oriental Gourmand.\n- Notas predominantes: Cereja, açúcar caramelizado e baunilha.\n- Sensação: Doce, cremosa, marcante e sensual. \n  Adoro Cupom Blog\nIdeal para: Quem ama fragrâncias bem docinhas, intensas e irresistíveis!",
+   "imgs": [
+    "fotos/xlc548b7.jpg"
+   ],
    "esgotado": false
   }
  ],
