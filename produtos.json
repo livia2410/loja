@@ -76,6 +76,18 @@
     "fotos/xlp39tps.jpg"
    ],
    "esgotado": false
+  },
+  {
+   "id": "xe9ztkjk",
+   "nome": "Proteína Capilar",
+   "preco": 115,
+   "cat": "c1",
+   "desc": "Um cuidado especial para os fios que precisam de força e recuperação! A Proteína Capilar auxilia no tratamento da fibra capilar, contribuindo para cabelos com aparência mais resistente, macia e saudável.",
+   "detalhes": "Benefícios:\n- Auxilia na recuperação dos fios.\n- Ajuda a melhorar a resistência capilar.\n- Proporciona maciez e cuidado.\n- Ideal para cabelos que precisam de tratamento.",
+   "imgs": [
+    "fotos/xvd9zgg6.jpg"
+   ],
+   "esgotado": true
   }
  ],
  "tema": {
