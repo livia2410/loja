@@ -1,7 +1,7 @@
 {
  "loja": "Livia perfumaria",
  "whatsapp": "83996230901",
- "taxaPresente": 0,
+ "taxaPresente": 200,
  "cats": [
   {
    "id": "c1",
@@ -35,15 +35,15 @@
   }
  ],
  "tema": {
-  "cor": "#d81b60",
-  "fundo": "#fff8fa",
-  "texto": "#3b1f2b",
+  "cor": "#1f8a70",
+  "fundo": "#f4fbf8",
+  "texto": "#17332b",
   "fonte": "elegante",
   "logo": "",
   "slogan": "Escolha seus produtos e envie o pedido pelo WhatsApp."
  },
  "pix": {
-  "chave": "",
+  "chave": "15363845423",
   "nome": "Livia perfumaria",
   "cidade": "Igaracy"
  },
